@@ -37,4 +37,8 @@ func main() {
 
 	n2 := map[string]int{"key1": 1, "key2": 2}
 	fmt.Println("are they equal", maps.Equal(n, n2))
+
+	anotherMap := make(map[string]int)
+	anotherMap["first"] = 1
+	anotherMap["second"] = 2
 }
