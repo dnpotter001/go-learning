@@ -16,8 +16,8 @@ func EncodeBase64(s string) (string, error) {
 	for chunk := range slices.Chunk(bytes, 3) {
 		chunkSize := len(chunk)
 
-		var b [3]byte
-		copy(b[:], chunk)
+		var b [3]byte     // new array of 3 bytes
+		copy(b[:], chunk) // slice operator produces a slice header that points the b array, copy only accepts slices
 
 		position16to24 := int(b[0]) << 16
 		position8to15 := int(b[1]) << 8
@@ -29,7 +29,6 @@ func EncodeBase64(s string) (string, error) {
 
 		// now split into sets of 4
 		//111111 112222 222233 333333
-
 		// shift the output by 18 then take the rest then chop of anything lower than 6 bits
 		output.WriteByte(base64[(combined24int >> 18)]) //0x3F could be added here but redundant
 		output.WriteByte(base64[(combined24int>>12)&0x3F])
