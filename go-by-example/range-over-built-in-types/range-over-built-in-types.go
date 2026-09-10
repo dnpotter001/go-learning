@@ -14,7 +14,7 @@ func main() {
 	dictionary := map[string]string{"a": "apple", "b": "banana"}
 
 	for k, v := range dictionary {
-		fmt.Println("%s -> %s", k, v)
+		fmt.Printf("%s -> %s", k, v)
 	}
 
 }
