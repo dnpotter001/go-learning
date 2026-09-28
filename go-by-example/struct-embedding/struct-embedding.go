@@ -32,4 +32,13 @@ func main() {
 
 	fmt.Println("describe:", co.describe())      //we are able to call describe on the container.
 	fmt.Println("describe:", co.base.describe()) //... but also on the base
+
+	//we an give the struct an interface too
+	type describer interface {
+		describe() string
+	}
+
+	var d describer = co //because container embed base the interface can be bestowed upon it. all the methods of the interface are present
+	fmt.Println(d.describe())
+
 }
