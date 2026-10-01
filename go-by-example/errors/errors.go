@@ -5,10 +5,19 @@ import (
 	"fmt"
 )
 
+type argumentError struct {
+	arg     int
+	message string
+}
+
+func (e *argumentError) Error() string { //if argument error implements the error interface it is of type error
+	return fmt.Sprintf("%d - %s", e.arg, e.message)
+}
+
 // no exemptions, return error as the last return value as convention
 func f(arg int) (int, error) {
 	if arg == 42 {
-		return -1, errors.New("Can't work with 42")
+		return -1, &argumentError{arg, "can't work with it"}
 	}
 
 	return arg + 3, nil
@@ -38,7 +47,15 @@ func main() {
 		}
 	}
 
-	err := makeTea(10)
+	_, err := f(42)
+
+	argumentError, ok := errors.AsType[*argumentError](err) //as type checks the type and converts like is and as in c#
+	if ok {
+		fmt.Println(argumentError.arg)
+		fmt.Println(argumentError.message)
+	}
+
+	err = makeTea(10)
 
 	if errors.Is(err, ErrOutOfTea) { // can check the type of error with errors.Is()
 		fmt.Println("We are out of tea!!!")
