@@ -28,4 +28,23 @@ func main() {
 		}
 	}
 
+	ticker := time.NewTicker(500 * time.Millisecond)
+	done := make(chan bool)
+
+	go func() {
+		for {
+			select { //select is used to await the channel values from the ticker, the ticker returns the time it ticks at
+			case <-done: //not actually needed for this demo to work
+				return
+			case t := <-ticker.C:
+				fmt.Println("Tick at", t)
+			}
+		}
+	}()
+
+	time.Sleep(1600 * time.Millisecond) //We wait while the ticker runs three times
+	ticker.Stop()
+	//done <- true
+	fmt.Println("Ticker stopped")
+
 }
