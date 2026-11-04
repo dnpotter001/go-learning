@@ -32,6 +32,7 @@ func main() {
 	}()
 
 	//without this gorountine the main process would send all of the 5 jobs before receiving any of the 5 results. this would block the main goroutine and create a deadlock
+	//so every send needs a receiver standing by immediately. Sending all 5 jobs inline in main (before reading any results) will always deadlock
 
 	for range 5 {
 		<-results // blocks here until some worker finishes and sends its result back
